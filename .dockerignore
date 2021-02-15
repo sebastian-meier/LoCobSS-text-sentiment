@@ -1,0 +1,15 @@
+nltk_data/*
+.gitignore
+.git
+.github
+LICENSE
+README.md
+TODO.md
+.env
+Dockerfile
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+.pytest_cache
+/locobss-text-profanity
