@@ -6,6 +6,7 @@ import json
 
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
+from flasgger import Swagger
 
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
@@ -20,12 +21,41 @@ sid = SentimentIntensityAnalyzer()
 app = Flask(__name__)
 app.config['DEBUG'] = False
 
+swagger = Swagger(app)
+
 @app.route('/')
 def root():
   return 'Hello', 200
 
 @app.route('/predict', methods=['POST'])
 def predict():
+  """Endpoint for generating sentiment predictions for a text.
+    ---
+    parameters:
+      - name: text
+        type: string
+        required: true
+        default: all
+    definitions:
+      Sentiment:
+        type: float
+      Sentiments:
+        type: array
+        items:
+          $ref: '#/definitions/Sentiment'
+      Color:
+        type: string
+    responses:
+      400:
+        description: Text parameter missing
+      200:
+        description: List of sentiments
+        schema:
+          $ref: '#/definitions/Sentiments'
+        examples:
+          [1.0, -0.5, 2.4]
+  """
+
   parser = reqparse.RequestParser()
   parser.add_argument('text')
   args = parser.parse_args()
