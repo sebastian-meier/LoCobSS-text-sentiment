@@ -25,6 +25,16 @@ swagger = Swagger(app)
 
 @app.route('/')
 def root():
+  """Default endpoint for testing
+    ---
+    produces:
+      - text/plain
+    responses:
+      200:
+        description: Service is alive
+        examples:
+          text/plain: Hello
+  """
   return 'Hello', 200
 
 @app.route('/predict', methods=['POST'])
@@ -35,16 +45,22 @@ def predict():
       - name: text
         type: string
         required: true
-        default: all
     definitions:
       Sentiment:
-        type: float
+        type: object
+        properties:
+          neg: 
+            type: float
+          neu: 
+            type: float
+          pos: 
+            type: float
+          compund: 
+            type: float
       Sentiments:
         type: array
         items:
           $ref: '#/definitions/Sentiment'
-      Color:
-        type: string
     responses:
       400:
         description: Text parameter missing
@@ -52,8 +68,8 @@ def predict():
         description: List of sentiments
         schema:
           $ref: '#/definitions/Sentiments'
-        examples:
-          [1.0, -0.5, 2.4]
+        examples: 
+          application/json: [{'neg': 0.54, 'neu': 0.46, 'pos': 0.0, 'compound': -0.69}]
   """
 
   parser = reqparse.RequestParser()

@@ -1,6 +1,6 @@
 import requests
 
-url = 'https://sentiment-rzuu3ecqxa-ey.a.run.app/predict'
+url = 'http://localhost:5050/predict'
 
 body = {
     "text": "The insurance company is evil!"
